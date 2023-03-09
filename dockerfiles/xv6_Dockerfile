@@ -1,0 +1,26 @@
+ rom ubuntu:20.04
+LABEL maintainer=wzj_pub@hotmail.com
+
+# CHange install resources addr to Chaina mainland
+RUN sed -i 's#http://archive.ubuntu.com/#http://mirrors.tuna.tsinghua.edu.cn/#' /etc/apt/sources.list
+
+# set timezone
+RUN apt-get update && \
+    apt-get install -yq tzdata && \
+    ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
+
+# home directory
+ENV HOME /home/0XDAMN
+
+#install prerequisite packages
+RUN apt-get update && apt-get -y install zsh git build-essential gdb-multiarch qemu-system-misc gcc-riscv64-linux-gnu binutils-riscv64-linux-gnu
+
+WORKDIR ${HOME}
+
+ENV XV6_ROOT=${HOME}/xv6
+RUN mkdir -p $XV6_ROOT
+
+RUN apt-get install -y cgdb
+
+CMD ["sleep", "infinity"]
