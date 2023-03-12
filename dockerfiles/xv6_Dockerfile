@@ -21,6 +21,9 @@ WORKDIR ${HOME}
 ENV XV6_ROOT=${HOME}/xv6
 RUN mkdir -p $XV6_ROOT
 
+# add auto-load path to '.initgdb'
+RUN echo "add-auto-load-safe-path ${XV6_ROOT}/.gdbinit" >> ${HOME}/.gdbinit
+
 RUN apt-get install -y cgdb
 
 CMD ["sleep", "infinity"]
